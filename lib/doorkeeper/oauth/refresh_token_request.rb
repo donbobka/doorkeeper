@@ -5,6 +5,7 @@ module Doorkeeper
 
       validate :token_presence, error: :invalid_request
       validate :token,        error: :invalid_grant
+      validate :credentials,  error: :invalid_client
       validate :client,       error: :invalid_client
       validate :client_match, error: :invalid_grant
       validate :scope,        error: :invalid_scope
@@ -78,6 +79,10 @@ module Doorkeeper
 
       def validate_token
         refresh_token.present? && !refresh_token.revoked?
+      end
+
+      def validate_credentials
+        !!credentials
       end
 
       def validate_client
