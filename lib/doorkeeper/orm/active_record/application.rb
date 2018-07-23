@@ -55,6 +55,8 @@ module Doorkeeper
     end
 
     def generate_encrypted_secret
+      return if encrypted_secret.present?
+
       secret = UniqueToken.generate
       self.encrypted_secret = Doorkeeper.configuration.encryption_handler.call(secret)
     end
